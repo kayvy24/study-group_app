@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Study Groups</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; }
+        .group { border-bottom: 1px solid #ccc; padding: 10px 0; }
+        .deleted { color: red; }
+        a { text-decoration: none; color: #007bff; margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Study Groups</h1>
+
+    {% for group in groups %}
+    <div class="group {% if group.deleted %}deleted{% endif %}">
+        <strong>Group {{ group.id }}</strong><br>
+        Class: {{ group.accounting_class }}<br>
+        Time: {{ group.preferred_time }}<br>
+        Days: {{ group.preferred_days }}<br>
+        Location: {{ group.campus_location }}<br>
+        Type: {{ group.meeting_type }}<br>
+        Size Pref: {{ group.preferred_group_size }}<br>
+
+        {% if group.deleted %}
+            <em>Deleted</em>
+            <a href="{{ url_for('restore_group', group_id=group.id) }}">Restore</a>
+        {% else %}
+            <a href="{{ url_for('delete_group', group_id=group.id) }}">Delete</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <br><br>
+    <a href="{{ url_for('index') }}">← Back to Home</a>
+</body>
+</html>

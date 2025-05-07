@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Study Group Confirmation</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+        .box { border: 1px solid #ccc; padding: 20px; margin-top: 20px; }
+        a { display: inline-block; margin-top: 20px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <h1>Thanks, {{ user.name }}!</h1>
+
+    {% if user.study_group %}
+    <div class="box">
+        <p><strong>You've been assigned to Study Group #{{ user.study_group.id }}</strong></p>
+        <p>📘 Course: {{ user.study_group.accounting_class }}</p>
+        <p>🕐 Time: {{ user.study_group.preferred_time }} ({{ user.study_group.preferred_days }})</p>
+        <p>📍 Location: {{ user.study_group.campus_location }}</p>
+        <p>🤝 Meeting Type: {{ user.study_group.meeting_type }}</p>
+    </div>
+    {% else %}
+    <p><strong>Sorry, no matching group was found and auto-creation was disabled.</strong></p>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}">← Back to Home</a>
+</body>
+</html>

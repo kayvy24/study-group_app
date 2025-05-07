@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User - {{ user.name }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+        input, select { width: 100%; padding: 8px; margin-bottom: 10px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        a { display: inline-block; margin-top: 20px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <h1>Edit {{ user.name }}</h1>
+    <form method="POST">
+        <input name="accounting_class" value="{{ user.accounting_class }}" required>
+        <input name="preferred_days" value="{{ user.preferred_days }}" required>
+        <input name="preferred_time" value="{{ user.preferred_time }}" required>
+        <select name="group_size" required>
+            <option value="2–3" {% if user.group_size == '2–3' %}selected{% endif %}>2–3</option>
+            <option value="4–5" {% if user.group_size == '4–5' %}selected{% endif %}>4–5</option>
+            <option value="Doesn’t matter" {% if user.group_size == 'Doesn’t matter' %}selected{% endif %}>Doesn’t matter</option>
+        </select>
+        <select name="meeting_type" required>
+            <option value="In-person" {% if user.meeting_type == 'In-person' %}selected{% endif %}>In-person</option>
+            <option value="Virtual" {% if user.meeting_type == 'Virtual' %}selected{% endif %}>Virtual</option>
+        </select>
+        <input name="campus" value="{{ user.campus }}" required>
+        <button type="submit">Update</button>
+    </form>
+    <a href="{{ url_for('index') }}">Back to Home</a>
+</body>
+</html>

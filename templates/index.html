@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Study Group Scheduler</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; }
+        input, select, textarea { width: 100%; padding: 8px; margin-bottom: 10px; }
+        button { padding: 10px 20px; background: #28a745; color: white; border: none; cursor: pointer; }
+        h2 { margin-top: 40px; }
+        .user-entry { border-bottom: 1px solid #ccc; padding: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Join a Study Group</h1>
+    <form method="POST" action="/add_user">
+        <input name="name" placeholder="Your Name" required>
+        <input name="accounting_class" placeholder="Accounting Class (e.g., ACCTG 201)" required>
+        <input name="preferred_days" placeholder="Available Days (e.g., Monday, Wednesday)" required>
+        <input name="preferred_time" placeholder="Preferred Time (e.g., Morning, Evening)" required>
+        <select name="group_size" required>
+            <option value="">Preferred Group Size</option>
+            <option>2–3</option>
+            <option>4–5</option>
+            <option>Doesn’t matter</option>
+        </select>
+        <select name="meeting_type" required>
+            <option value="">Meeting Preference</option>
+            <option>In-person</option>
+            <option>Virtual</option>
+        </select>
+        <input name="campus" placeholder="Campus Location (e.g., Love Library)" required>
+        <label>Allow auto-create group?</label>
+        <select name="allow_auto_create" required>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+</select>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Registered Users</h2>
+    {% for user in users %}
+    <div class="user-entry">
+        <strong>{{ user.name }}</strong> — {{ user.accounting_class }}<br>
+        Prefers: {{ user.preferred_days }} at {{ user.preferred_time }}<br>
+        Group Size: {{ user.group_size }} | {{ user.meeting_type }} @ {{ user.campus }}<br>
+        Assigned Group:
+        {% if user.study_group %}
+            <em>Group {{ user.study_group.id }} ({{ user.study_group.accounting_class }} @ {{ user.study_group.preferred_time }}, {{ user.study_group.campus_location }})</em>
+        {% else %}
+            <em>None</em>
+        {% endif %}
+        <br>
+        <a href="{{ url_for('edit_user', user_id=user.id) }}">Edit</a>
+    </div>
+    {% endfor %}
+
+    <h2><a href="{{ url_for('list_groups') }}">Manage Study Groups</a></h2>
+</body>
+</html>
